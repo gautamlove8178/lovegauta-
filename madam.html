@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday Madam jii ❤️</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: radial-gradient(ellipse at center, #1a001a 0%, #000000 100%);
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn {
+      padding: 15px 30px;
+      background: #ff69b4;
+      border: none;
+      font-size: 20px;
+      color: white;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 20px #ff69b4;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 15px #ff69b4;
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px #ff1493;
+      }
+    }
+
+    .light {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: radial-gradient(circle, rgba(255,182,193,0.6), rgba(0,0,0,0.95));
+      opacity: 0;
+      transition: opacity 2s;
+      z-index: 1;
+    }
+
+    .message {
+      font-size: 2rem;
+      color: #fff0f5;
+      text-align: center;
+      margin: 30px;
+      opacity: 0;
+      transition: opacity 1s;
+      max-width: 700px;
+      text-shadow: 0 0 20px #ff69b4;
+    }
+
+    .balloon, .heart {
+      position: absolute;
+      bottom: -100px;
+      z-index: 0;
+    }
+
+    .balloon {
+      width: 50px;
+      height: 70px;
+      background-color: red;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: floatBalloon 10s linear infinite;
+    }
+
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background: white;
+      transform: translateX(-50%);
+    }
+
+    @keyframes floatBalloon {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-120vh); opacity: 0; }
+    }
+
+    .heart {
+      width: 30px;
+      height: 30px;
+      background: #ff69b4;
+      transform: rotate(-45deg);
+      animation: floatHeart 7s ease-in infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: #ff69b4;
+      border-radius: 50%;
+    }
+
+    .heart::before { top: -15px; left: 0; }
+    .heart::after { top: 0; left: 15px; }
+
+    @keyframes floatHeart {
+      0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(-45deg); opacity: 0; }
+    }
+
+    .cake, .gift {
+      display: none;
+      margin-top: 30px;
+      animation: fadeIn 2s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .cake img {
+      width: 200px;
+    }
+
+    .gift-box {
+      width: 200px;
+      height: 200px;
+      background: url('https://i.imgur.com/3Y3Z1ZJ.png') no-repeat center/contain;
+      position: relative;
+      animation: openBox 2s ease-out forwards;
+    }
+
+    .gift-note {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      color: pink;
+      text-shadow: 0 0 10px white;
+      opacity: 0;
+      animation: fadeIn 2s ease-in forwards;
+      animation-delay: 2s;
+    }
+
+    @keyframes openBox {
+      0% { transform: scale(0.5) rotate(-20deg); opacity: 0; }
+      50% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="light" id="light"></div>
+  <div class="container">
+    <button class="btn" id="startBtn">Turn on the light</button>
+    <div class="message" id="message"></div>
+    <button class="btn" id="nextBtn" style="display:none;">Next meri jaan ❤️</button>
+
+    <div class="cake" id="cake">
+      <img src="cake.png" alt="Cake" />
+      <div style="color:white; font-size: 1.5rem; margin-top: 10px;">Love, Gautam 🎂</div>
+    </div>
+
+    <div class="gift" id="gift">
+      <div class="gift-box"></div>
+      <div class="gift-note">Yeh chhota sa surprise... Sirf tumhare liye 💝</div>
+    </div>
+
+    <audio id="music" src="birthday.mp3"></audio>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById("startBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const light = document.getElementById("light");
+    const message = document.getElementById("message");
+    const music = document.getElementById("music");
+    const cake = document.getElementById("cake");
+    const gift = document.getElementById("gift");
+
+    const messages = [
+      "🌸 Happy Birthday Madam jii 🌸",
+      "Aaj ka din sirf aapka hai, meri zindagi ki sabse pyari ladki 💖",
+      "Aapka chehra meri har subah ki roshni hai ☀️",
+      "Har pal mere dil mein sirf aapka naam dhadakta hai ❤️",
+      "Aapki muskaan meri duniya ka noor hai ✨",
+      "Aap ho to zindagi ek khubsurat kahaani lagti hai 📖",
+      "Aaj ke din bas ek dua — aapko meri sari khushiyan mil jaayein 🌹",
+      "Mujhe har janam mein aap hi chahiye... 💘",
+      "Happy birthday, meri jaan... forever yours ❤️",
+    ];
+
+    let index = 0;
+
+    startBtn.addEventListener("click", () => {
+      light.style.opacity = 1;
+      music.play();
+      startBtn.style.display = "none";
+      setInterval(() => {
+        createBalloon();
+        createHeart();
+      }, 700);
+      showMessage();
+    });
+
+    nextBtn.addEventListener("click", () => {
+      index++;
+      if (index < messages.length) {
+        showMessage();
+      } else {
+        nextBtn.style.display = "none";
+        showCake();
+      }
+    });
+
+    function showMessage() {
+      message.style.opacity = 0;
+      setTimeout(() => {
+        message.textContent = messages[index];
+        message.style.opacity = 1;
+        nextBtn.style.display = "inline-block";
+      }, 500);
+    }
+
+    function showCake() {
+      cake.style.display = "block";
+      setTimeout(showGift, 4000);
+    }
+
+    function showGift() {
+      gift.style.display = "block";
+    }
+
+    function createBalloon() {
+      const b = document.createElement("div");
+      b.className = "balloon";
+      b.style.left = Math.random() * 100 + "vw";
+      b.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+      b.style.animationDuration = (Math.random() * 5 + 5) + "s";
+      document.body.appendChild(b);
+      setTimeout(() => b.remove(), 12000);
+    }
+
+    function createHeart() {
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.style.left = Math.random() * 100 + "vw";
+      h.style.animationDuration = (Math.random() * 4 + 5) + "s";
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 10000);
+    }
+  </script>
+</body>
+</html>
